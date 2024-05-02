@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CRUD de lanche</title>
+    <title>CRUD de Lanche</title>
     <style>
         table {
             width: 100%;
