@@ -12,16 +12,21 @@
     }
 </style>
 <body>
-    Em conexao.php, na linha 34 (header("Location: home.html");)
-    trocar o "home.html" para a página home do usuário.
+    "Página em construção!!"
     <br>
     <br>
     <div id="oi">
-    <form action="cadastro.php">
-    <button type="submit">Cadastro</button>
+    <form action="Funcionário/cadastro_funcionario.php">
+    <button type="submit">Cadastro Funcionário</button>
     </form>
-    <form action="login.php">
-    <button type="submit">Login</button>
+    <form action="Funcionário/login_funcionario.php">
+    <button type="submit">Login Funcionário</button>
+    </form>
+    <form action="Lanche/cadastro_lanche.php">
+    <button type="submit">Cadastro Lanche</button>
+    </form>
+    <form action="Lanche/index_lanche.php">
+    <button type="submit">Ver Lanches</button>
     </form>
     </div>
 </body>
