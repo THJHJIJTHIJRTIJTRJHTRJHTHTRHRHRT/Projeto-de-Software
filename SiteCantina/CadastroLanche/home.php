@@ -89,4 +89,27 @@
 
 
 </body>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQSBp7yVSxupCS1OWv-H-8bl8qoie_KWA",
+    authDomain: "cantina-51e50.firebaseapp.com",
+    projectId: "cantina-51e50",
+    storageBucket: "cantina-51e50.appspot.com",
+    messagingSenderId: "706718974085",
+    appId: "1:706718974085:web:494acebe58876c075369ec",
+    measurementId: "G-G5CZXJG96R"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 </html>
