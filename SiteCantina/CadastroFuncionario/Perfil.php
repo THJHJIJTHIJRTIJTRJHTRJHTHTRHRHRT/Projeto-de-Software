@@ -5,6 +5,18 @@ if (!isset($_SESSION['usuario'])) {
     header('Location: cadastro_funcionario.php?erro=true');
     exit; // Pare a execução do script após o redirecionamento
 }
+
+// Processar o upload da foto de perfil, se houver envio
+if (isset($_FILES['foto_perfil'])) {
+    if ($_FILES['foto_perfil']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = dirname(__FILE__) . '/'; // Diretório atual onde este script PHP está localizado
+        $filename = $_FILES['foto_perfil']['name'];
+        move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $upload_dir . $filename);
+        $_SESSION['foto_perfil'] = $filename; // Salva apenas o nome do arquivo na sessão
+    } else {
+        echo '<script>alert("Erro ao carregar a imagem. Por favor, tente novamente.");</script>';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +24,7 @@ if (!isset($_SESSION['usuario'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lanches - SiteCantina</title>
+    <title>Home - SiteCantina</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style>
@@ -26,50 +38,40 @@ if (!isset($_SESSION['usuario'])) {
             max-width: 960px;
             margin: 50px auto;
             padding: 20px;
+            text-align: center;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .lanche-card {
+        .profile-pic {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
             margin-bottom: 20px;
         }
-        .lanche-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px 8px 0 0;
-        }
-        .lanche-body {
-            padding: 15px;
-            text-align: center;
-        }
-        .lanche-title {
-            font-size: 18px;
+        .username {
+            font-size: 24px;
             font-weight: bold;
         }
-        .lanche-price {
+        .bio {
             font-size: 16px;
             color: #666;
-            margin: 10px 0;
+            margin-bottom: 20px;
         }
-        .buy-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+        .logout {
+            margin-top: 20px;
         }
-        .buy-btn:hover {
-            background-color: #c82333;
-        }
+        /* Estilos para o cabeçalho */
         .header {
-            background-color: #dc3545;
+            background-color: #dc3545; /* Vermelho Bootstrap padrão */
             color: white;
             text-align: center;
             padding: 10px;
-       
+            margin-bottom: 20px;
         }
+
+        /* Estilos para o rodapé */
         .footer {
             background-color: #dc3545; /* Vermelho Bootstrap padrão */
             color: white;
@@ -115,43 +117,16 @@ if (!isset($_SESSION['usuario'])) {
 
     <!-- Conteúdo principal -->
     <div class="container">
-        <div class="row">
-            <div class="col-md-4 lanche-card">
-                <div class="card">
-                    <img src="caminho/para/imagem_lanche1.jpg" alt="Lanche 1" class="lanche-img">
-                    <div class="lanche-body">
-                        <h5 class="lanche-title">Lanche 1</h5>
-                        <p class="lanche-price">R$ 10,00</p>
-                        <button class="buy-btn" data-lanche-id="1" data-price="10.00">Comprar</button>
-
-
-
-                    </div>
-                </div>
+        <img src="<?php echo htmlspecialchars($_SESSION['foto_perfil'] ?? ''); ?>" alt="Foto do Perfil" class="profile-pic">
+        <h1 class="username"><?php echo "Olá, " . htmlspecialchars($_SESSION['nome_exibicao'] ?? ''); ?></h1>
+        <p class="bio"><?php echo htmlspecialchars($_SESSION['biografia'] ?? ''); ?></p>
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="foto_perfil">Escolha sua foto de perfil:</label>
+                <input type="file" class="form-control-file" id="foto_perfil" name="foto_perfil">
             </div>
-            <div class="col-md-4 lanche-card">
-                <div class="card">
-                    <img src="caminho/para/imagem_lanche2.jpg" alt="Lanche 2" class="lanche-img">
-                    <div class="lanche-body">
-                        <h5 class="lanche-title">Lanche 2</h5>
-                        <p class="lanche-price">R$ 12,00</p>
-                        <button class="buy-btn" data-lanche-id="2" data-price="12.00">Comprar</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 lanche-card">
-                <div class="card">
-                    <img src="caminho/para/imagem_lanche3.jpg" alt="Lanche 3" class="lanche-img">
-                    <div class="lanche-body">
-                        <h5 class="lanche-title">Lanche 3</h5>
-                        <p class="lanche-price">R$ 15,00</p>
-                        <button class="buy-btn" data-lanche-id="3" data-price="15.00" data-url="processar_pagamento.php">Comprar</button>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Enviar Foto</button>
+        </form>
     </div>
 
     <!-- Rodapé -->
@@ -163,4 +138,3 @@ if (!isset($_SESSION['usuario'])) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-Mk1G1JDFjVBDTRZ7FC68spz5pbhN0fdAwrRVHbeuhxUvZwPG+8fGiCws/8U8I6+1" crossorigin="anonymous"></script>
 </body>
 </html>
-

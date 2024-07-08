@@ -69,7 +69,7 @@
             echo "</tbody>
                 </table>";
             echo "<div class='text-center'>
-                    <a href='../home.php' class='btn btn-primary'>Home</a>
+                    <a href='../CadastroFuncionario/home.php' class='btn btn-primary'>Home</a>
                   </div>";
         ?>
     </div>

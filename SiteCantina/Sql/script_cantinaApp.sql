@@ -1,6 +1,6 @@
-create database cantinaSite;
+create database cantinaApp;
 
-use cantinaSite;
+use cantinaApp;
 
 create table lanche(
 id int not null auto_increment primary key,
@@ -13,5 +13,9 @@ CREATE TABLE funcionario(
   idFuncionario int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nome varchar(60) NOT NULL,
   email varchar(60) NOT NULL,
-  senha varchar(60) NOT NULL
+  senha varchar(60) NOT NULL,
+confirmarSenha varchar(60) NOT NULL
 )
+
+select * from lanche;
+select * from funcionario

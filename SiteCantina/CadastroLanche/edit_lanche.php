@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Buscar o registro do aluno
+    // Buscar o registro do lanche
     $registro = listarRegistro($conexao, $id);
 
     // Verificar se o registro foi encontrado
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
     <div class="container">
         <h1>Editar Lanche</h1>
         <?php if (isset($aux)) : ?>
-            <form action="update_lanche.php" method="post">
+            <form id="editForm" action="update_lanche.php" method="post">
                 <input type="hidden" name="id" value="<?php echo $registro['id']; ?>">
                 <div class="form-group">
                     <label for="nome">Nome:</label>
@@ -77,5 +77,47 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
             <p class="alert alert-danger">Lanche não encontrado.</p>
         <?php endif; ?>
     </div>
+
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+    <!-- Initialize Firebase -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSeMAet-Bu9IlgtdJ_xKmbMruyc6FtRfA",
+            authDomain: "test-php-ff645.firebaseapp.com",
+            databaseURL: "https://test-php-ff645-default-rtdb.firebaseio.com",
+            projectId: "test-php-ff645",
+            storageBucket: "test-php-ff645.appspot.com",
+            messagingSenderId: "321033268597",
+            appId: "1:321033268597:web:d87e4621f57acac495b73c"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Preenche o formulário com os dados do lanche a ser editado
+const editForm = document.getElementById('editForm');
+editForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const nome = editForm.nome.value;
+    const preco = editForm.preco.value;
+    const descricao = editForm.descricao.value;
+    const id = editForm.id.value;
+    
+    try {
+        await db.collection("lanche").doc(id).set({
+            nome: nome,
+            preco: preco,
+            descricao: descricao
+        });
+        console.log("Lanche atualizado com sucesso no Firestore!");
+        // Você pode adicionar aqui alguma mensagem de sucesso se desejar
+    } catch (error) {
+        console.error("Erro ao atualizar lanche no Firestore:", error);
+    }
+        });
+    </script>
 </body>
 </html>
+
